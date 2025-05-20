@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameVerse - Plateforme de Jeux Multijoueur</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="memory-styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta name="description" content="GameVerse - Plateforme de jeux multijoueur en ligne. Jouez au Tic-Tac-Toe, Connect Four et plus encore!">
+</head>
+<body>
+  <div class="container">
+    <!-- Écran d'accueil -->
+    <div id="welcome-screen">
+      <div class="logo-container">
+        <h1 class="game-logo">GameVerse</h1>
+        <p class="tagline">Plateforme de Jeux Multijoueur</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎮</div>
+          <h3>Jeux Classiques</h3>
+          <p>Tic-Tac-Toe, Connect Four et plus encore à venir!</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3>Multijoueur</h3>
+          <p>Jouez en local ou en ligne avec des amis</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3>Classements</h3>
+          <p>Suivez vos statistiques et progressez</p>
+        </div>
+      </div>
+      
+      <div class="welcome-buttons">
+        <button id="start-auth" class="btn-primary pulse-animation">Commencer à jouer</button>
+        <button id="play-as-guest" class="btn-secondary">Jouer en tant qu'invité</button>
+      </div>
+    </div>
+
+    <!-- Section d'authentification -->
+    <div id="auth-section" style="display: none;">
+      <div class="logo-container">
+        <h1 class="game-logo">GameVerse</h1>
+        <p class="tagline">Plateforme de Jeux Multijoueur</p>
+      </div>
+      
+      <!-- Formulaire de connexion -->
+      <div id="login-form" class="auth-card">
+        <h2>Connexion</h2>
+        <form id="login">
+          <div class="form-group">
+            <label for="login-username">Nom d'utilisateur</label>
+            <input type="text" id="login-username" placeholder="Votre nom d'utilisateur" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Mot de passe</label>
+            <input type="password" id="login-password" placeholder="Votre mot de passe" required>
+            <div class="password-toggle">
+              <input type="checkbox" id="show-password">
+              <label for="show-password">Afficher le mot de passe</label>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Se connecter</button>
+        </form>
+        <div class="switch-form">
+          Pas encore de compte? <a href="#" id="show-signup">S'inscrire</a>
+        </div>
+        <div class="auth-options">
+          <button id="back-to-welcome" class="btn-text">Retour à l'accueil</button>
+        </div>
+      </div>
+      
+      <!-- Formulaire d'inscription -->
+      <div id="signup-form" class="auth-card" style="display: none;">
+        <h2>Inscription</h2>
+        <form id="signup">
+          <div class="form-group">
+            <label for="signup-username">Nom d'utilisateur</label>
+            <input type="text" id="signup-username" placeholder="Choisissez un nom d'utilisateur" required>
+            <div class="input-hint">3-20 caractères, lettres et chiffres uniquement</div>
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" placeholder="votre@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Mot de passe</label>
+            <input type="password" id="signup-password" placeholder="Choisissez un mot de passe" required>
+            <div class="password-strength">
+              <div class="strength-bar"></div>
+              <span class="strength-text">Force du mot de passe</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="signup-confirm-password">Confirmer le mot de passe</label>
+            <input type="password" id="signup-confirm-password" placeholder="Confirmez votre mot de passe" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-avatar">Avatar (optionnel)</label>
+            <div class="avatar-selection">
+              <div class="avatar-option selected" data-avatar="default">👤</div>
+              <div class="avatar-option" data-avatar="gamer">🎮</div>
+              <div class="avatar-option" data-avatar="ninja">🥷</div>
+              <div class="avatar-option" data-avatar="alien">👽</div>
+              <div class="avatar-option" data-avatar="robot">🤖</div>
+            </div>
+            <input type="hidden" id="signup-avatar" value="default">
+          </div>
+          <button type="submit" class="btn-primary">S'inscrire</button>
+        </form>
+        <div class="switch-form">
+          Déjà un compte? <a href="#" id="show-login">Se connecter</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="game-hub" style="display: none;">
+      <header class="game-header">
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">👤</div>
+          <div>
+            <h2>Bienvenue, <span id="username">Invité</span></h2>
+            <div class="user-level">
+              <div class="level-badge">Niveau <span id="user-level">1</span></div>
+              <div class="level-progress">
+                <div class="level-bar" id="level-bar" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-icon win-icon">🏆</span>
+              <span id="wins">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon loss-icon">❌</span>
+              <span id="losses">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="theme-toggle" class="btn-icon" title="Changer de thème">🌓</button>
+          <button id="settings-btn" class="btn-icon" title="Paramètres">⚙️</button>
+          <button id="logout-btn" class="btn-secondary" style="display: none;">Déconnexion</button>
+        </div>
+      </header>
+      
+      <div class="game-selection">
+        <h2>Choisissez un jeu</h2>
+        <div class="game-grid">
+          <div class="game-card" id="tic-tac-toe-card" onclick="selectGame('tic-tac-toe')">
+            <div class="game-icon">❌⭕</div>
+            <h3>Tic-Tac-Toe</h3>
+            <p class="game-description">Le classique jeu de morpion</p>
+            <div class="game-stats">
+              <span class="game-stat">Parties: <span id="ttt-games">0</span></span>
+              <span class="game-stat">Victoires: <span id="ttt-wins">0</span></span>
+            </div>
+          </div>
+          <div class="game-card" id="connect-four-card" onclick="selectGame('connect-four')">
+            <div class="game-icon">🔴🟡</div>
+            <h3>Connect Four</h3>
+            <p class="game-description">Alignez 4 jetons pour gagner</p>
+            <div class="game-stats">
+              <span class="game-stat">Parties: <span id="c4-games">0</span></span>
+              <span class="game-stat">Victoires: <span id="c4-wins">0</span></span>
+            </div>
+          </div>
+          <div class="game-card" id="memory-card" onclick="selectGame('checkers')">
+            <div class="game-icon">🎴🎴</div>
+            <h3>Memory</h3>
+            <p class="game-description">Retrouvez les paires d'emojis</p>
+            <div class="game-stats">
+              <span class="game-stat">Parties: <span id="memory-games">0</span></span>
+              <span class="game-stat">Victoires: <span id="memory-wins">0</span></span>
+            </div>
+          </div>
+          <div class="game-card coming-soon">
+            <div class="game-icon">🎲</div>
+            <h3>Plus de jeux</h3>
+            <p class="game-description">D'autres jeux arrivent bientôt!</p>
+            <div class="game-badge">Bientôt</div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="mode-selection" style="display: none;">
+        <h2>Choisissez un mode</h2>
+        <div class="mode-grid">
+          <div class="mode-card" onclick="startGame('solo')">
+            <div class="mode-icon">🤖</div>
+            <h3>Solo</h3>
+            <p>Jouez contre l'IA</p>
+            <div class="mode-feature">3 niveaux de difficulté</div>
+          </div>
+          <div class="mode-card" onclick="startGame('local')">
+            <div class="mode-icon">👥</div>
+            <h3>Local</h3>
+            <p>Jouez à deux sur le même appareil</p>
+            <div class="mode-feature">Parfait pour jouer avec un ami</div>
+          </div>
+          <div class="mode-card" onclick="startGame('online')">
+            <div class="mode-icon">🌐</div>
+            <h3>En ligne</h3>
+            <p>Affrontez d'autres joueurs</p>
+            <div class="mode-feature">Chat en temps réel</div>
+          </div>
+        </div>
+        <button class="btn-secondary back-button" onclick="backToGameSelection()">Retour</button>
+      </div>
+      
+      <div id="game-container" style="display: none;">
+        <div class="game-header">
+          <h2 id="game-title"></h2>
+          <div class="game-actions">
+            <button id="game-help" class="btn-icon" title="Aide">❓</button>
+            <button class="btn-secondary" onclick="backToGameSelection()">Retour</button>
+          </div>
+        </div>
+        
+        <div id="online-game-info" class="online-game-info" style="display: none;">
+          <div class="room-info">
+            <div class="room-id-container">
+              <span>ID de salle: </span>
+              <code id="room-id-display">------</code>
+              <button id="copy-room-id" class="btn-copy" title="Copier l'ID">📋</button>
+              <button id="share-room" class="btn-share" title="Partager">📤</button>
+            </div>
+            <div class="players-info">
+              <div class="player-info you">
+                <div class="player-avatar" id="player-avatar">👤</div>
+                <div class="player-name">Vous (<span id="player-symbol">X</span>)</div>
+              </div>
+              <div class="vs-badge">VS</div>
+              <div class="player-info opponent">
+                <div class="player-avatar">❓</div>
+                <div class="player-name" id="opponent-name">En attente...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="current-player" class="game-status"></div>
+        <div id="turn-timer" class="turn-timer" style="display: none;">
+          <div class="timer-bar">
+            <div class="timer-progress"></div>
+          </div>
+          <div class="timer-text">30s</div>
+        </div>
+        
+        <div id="game-area" class="game-area"></div>
+        <div id="game-result" class="game-result"></div>
+        
+        <div id="game-controls" class="game-controls">
+          <div id="difficulty-selector" class="difficulty-selector" style="display: none;">
+            <span>Difficulté: </span>
+            <div class="difficulty-options">
+              <button class="difficulty-btn" data-difficulty="facile">Facile</button>
+              <button class="difficulty-btn active" data-difficulty="medium">Moyen</button>
+              <button class="difficulty-btn" data-difficulty="difficile">Difficile</button>
+            </div>
+          </div>
+          
+          <div class="scoreboard" id="scoreboard" style="display: none;">
+            <div class="score-item">
+              <div class="player-symbol x">X</div>
+              <div class="player-score" id="score-x">0</div>
+            </div>
+            <div class="score-item">
+              <div class="player-symbol o">O</div>
+              <div class="player-score" id="score-o">0</div>
+            </div>
+          </div>
+          
+          <div class="game-buttons">
+            <button class="btn-primary" id="reset-game" onclick="resetGame()">Recommencer</button>
+            <button class="btn-secondary" id="toggle-chat" style="display: none;">Afficher le chat</button>
+          </div>
+        </div>
+        
+      </div>
+      
+      <div id="join-room-interface" class="join-room-interface" style="display: none;">
+        <h3>Rejoindre une partie</h3>
+        <div class="form-group">
+          <input type="text" id="room-id-input" placeholder="Entrez l'ID de la salle">
+          <button class="btn-primary" id="join-room-btn">Rejoindre</button>
+        </div>
+        <div class="or-divider">
+          <span>OU</span>
+        </div>
+        <button class="btn-primary create-room-btn" id="create-room-btn">
+          <span class="btn-icon">➕</span> Créer une nouvelle salle
+        </button>
+        <div class="quick-match-option">
+          <button class="btn-secondary" id="quick-match-btn">
+            <span class="btn-icon">⚡</span> Partie rapide
+          </button>
+          <div class="tooltip">Vous rejoint automatiquement à une partie disponible</div>
+        </div>
+        <button class="btn-secondary back-button" id="back-to-mode-btn">Retour</button>
+      </div>
+    </div>
+    
+    <!-- Modales -->
+    <div id="settings-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Paramètres</h3>
+          <button class="close-modal">✖</button>
+        </div>
+        <div class="modal-body">
+          <div class="settings-section">
+            <h4>Apparence</h4>
+            <div class="setting-item">
+              <label for="theme-select">Thème</label>
+              <select id="theme-select">
+                <option value="dark">Sombre</option>
+                <option value="light">Clair</option>
+                <option value="auto">Automatique (système)</option>
+              </select>
+            </div>
+          </div>
+          <div class="settings-section">
+            <h4>Son</h4>
+            <div class="setting-item">
+              <label for="sound-effects">Effets sonores</label>
+              <label class="switch">
+                <input type="checkbox" id="sound-effects" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label for="background-music">Musique de fond</label>
+              <label class="switch">
+                <input type="checkbox" id="background-music">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label for="volume-control">Volume</label>
+              <input type="range" id="volume-control" min="0" max="100" value="50">
+            </div>
+          </div>
+          <div class="settings-section">
+            <h4>Notifications</h4>
+            <div class="setting-item">
+              <label for="game-notifications">Notifications de jeu</label>
+              <label class="switch">
+                <input type="checkbox" id="game-notifications" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="reset-settings">Réinitialiser</button>
+          <button class="btn-primary" id="save-settings">Sauvegarder</button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="profile-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Profil</h3>
+          <button class="close-modal">✖</button>
+        </div>
+        <div class="modal-body">
+          <div class="profile-header">
+            <div class="profile-avatar" id="profile-avatar">👤</div>
+            <div class="profile-info">
+              <h4 id="profile-username">Utilisateur</h4>
+              <div class="profile-level">Niveau <span id="profile-level">1</span></div>
+            </div>
+          </div>
+          <div class="profile-stats">
+            <div class="stat-card">
+              <div class="stat-value" id="profile-wins">0</div>
+              <div class="stat-label">Victoires</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="profile-losses">0</div>
+              <div class="stat-label">Défaites</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="profile-ratio">0%</div>
+              <div class="stat-label">Ratio</div>
+            </div>
+          </div>
+          <div class="profile-achievements">
+            <h4>Succès</h4>
+            <div class="achievements-grid" id="achievements-list">
+              <div class="achievement locked">
+                <div class="achievement-icon">🏆</div>
+                <div class="achievement-info">
+                  <div class="achievement-name">Première Victoire</div>
+                  <div class="achievement-desc">Gagnez votre première partie</div>
+                </div>
+              </div>
+              <div class="achievement locked">
+                <div class="achievement-icon">🔥</div>
+                <div class="achievement-info">
+                  <div class="achievement-name">Sur une lancée</div>
+                  <div class="achievement-desc">Gagnez 3 parties d'affilée</div>
+                </div>
+              </div>
+              <div class="achievement locked">
+                <div class="achievement-icon">🌟</div>
+                <div class="achievement-info">
+                  <div class="achievement-name">Maître du jeu</div>
+                  <div class="achievement-desc">Atteignez le niveau 10</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="profile-history">
+            <h4>Historique récent</h4>
+            <div class="history-list" id="game-history">
+              <div class="no-history">Aucune partie jouée récemment</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="tutorial-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="tutorial-title">Comment jouer</h3>
+          <button class="close-modal">✖</button>
+        </div>
+        <div class="modal-body">
+          <div id="tutorial-content"></div>
+          <div class="tutorial-navigation">
+            <button id="prev-step" class="btn-secondary" disabled>Précédent</button>
+            <div id="tutorial-progress">
+              <div class="progress-dots"></div>
+            </div>
+            <button id="next-step" class="btn-primary">Suivant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="notification" class="notification" style="display: none;"></div>
+  <div id="confetti-container" class="confetti-container" style="display: none;"></div>
+  
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
