@@ -64,23 +64,15 @@ GameVerse is a modern, interactive multiplayer gaming platform that brings class
    - Import the schema from `db-schema.sql`
    - Configure database connection in `.env` file
 
-4. Configure environment variables:
-   Create a `.env` file with the following variables:
-   ```
-   PORT=3000
-   DB_HOST=localhost
-   DB_USER=yourusername
-   DB_PASSWORD=yourpassword
-   DB_NAME=gameverse
-   JWT_SECRET=your_jwt_secret_key
-   ```
 
-5. Start the server:
+  
+
+4. Start the server:
    ```bash
    npm start
    ```
 
-6. Open your browser and navigate to:
+5. Open your browser and navigate to:
    ```
    http://localhost:3000
    ```
